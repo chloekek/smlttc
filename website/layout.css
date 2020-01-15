@@ -1,0 +1,21 @@
+body
+{
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+
+#logo { grid-area: 1 / 1 / 3 / 2; }
+#meet { grid-area: 1 / 2 / 2 / 3; }
+#join { grid-area: 2 / 2 / 3 / 3; }
+
+body
+{
+    margin: 3.125rem;
+}
+
+#meet, #join
+{
+    line-height: 2em;
+    width: 12.5rem;
+}
