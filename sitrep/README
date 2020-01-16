@@ -1,0 +1,8 @@
+Sitrep is a program that stores log messages and extracts metrics from them.
+
+
+sitrep-receive
+
+    Retrieves log messages on stdin and saves them to the database.
+    It does not listen on a TCP address, but serves a single connection.
+    It is meant to run under socat(1) or similar software for listening.
