@@ -1,19 +1,22 @@
 module util.io;
 
 import util.os : read, write;
-import std.range : empty;
 
-/// Input range that yields chunks read from a file descriptor.
+/// Input range that yields bytes read from a file descriptor.
 /// Each time the range is advanced, read is called to fill an internal buffer.
-/// The internal buffer is always at the front of the range,
+/// The front of the internal buffer is always at the front of the range,
 /// albeit with different data across front pops.
 /// At the end of the file, the range is empty.
+///
+/// The buffer is filled by empty, not by popFront.
+/// This prevents blocking reads when no more data is needed.
 struct Reader
 {
 private:
     int     fd;
     ubyte[] buf;
     size_t  len;
+    size_t  off;
 
 public:
     @disable this();
@@ -32,6 +35,7 @@ public:
         this.fd  = fd;
         this.buf = buf;
         this.len = 0;
+        this.off = 0;
     }
 
     /// ditto
@@ -46,30 +50,26 @@ public:
         this(fd, new ubyte[bufSize]);
     }
 
-    private @safe
-    void ensureFilled()
-    {
-        if (len == 0)
-            len = read(fd, buf);
-    }
-
     @safe
-    bool empty()
+    bool empty() scope
     {
-        ensureFilled();
+        if (off == len) {
+            len = read(fd, buf);
+            off = 0;
+        }
         return len == 0;
     }
 
     nothrow pure @nogc @safe
-    inout(ubyte)[] front() inout
+    ubyte front() const scope
     {
-        return buf[0 .. len];
+        return buf[off];
     }
 
     nothrow pure @nogc @safe
-    void popFront()
+    void popFront() scope
     {
-        len = 0;
+        ++off;
     }
 }
 
@@ -84,8 +84,7 @@ unittest
     scope(exit) close(fd);
 
     auto reader = Reader(fd, 8);
-    auto bytes  = joiner(&reader);
-    assert(equal(bytes, "abcdefghijklmnopqrstuvwxyz\n"));
+    assert(equal(&reader, "abcdefghijklmnopqrstuvwxyz\n"));
 }
 
 /// The write subroutine returns the number of bytes it wrote.
@@ -96,6 +95,7 @@ unittest
 @safe
 void writeAll(int fd, scope const(void)[] b)
 {
+    import std.range : empty;
     while (!b.empty) {
         const n = write(fd, b);
         b = b[n .. $];
