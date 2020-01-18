@@ -1,10 +1,19 @@
 module main;
 
-import util.io : writeAll;
+import std.range : put;
+import std.string : format;
+import util.binary : readUshort;
+import util.io : Reader, Writer;
 
 @safe
 void main()
 {
-    writeAll(1, "stdout\n");
-    writeAll(2, "stderr\n");
+    auto stdin  = Reader(0, 512);
+    auto stdout = Writer(1);
+    auto stderr = Writer(2);
+
+    const protocolVersion = readUshort(stdin);
+
+    put(stdout, format!"%d\n"(protocolVersion));
+    put(stderr, format!"%d\n"(protocolVersion));
 }

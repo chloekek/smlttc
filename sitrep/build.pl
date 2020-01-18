@@ -19,7 +19,7 @@ my @ldcFlags         = qw(-O3 -dip1000);
 my @ldcUnittestFlags = qw(-main -unittest);
 
 my @dLibrarySourceDirs  = qw(sitrep/sitrep);
-my @dLibrarySourceFiles = qw(util/io.d util/os.d);
+my @dLibrarySourceFiles = qw(util/binary.d util/io.d util/os.d);
 find(sub { push(@dLibrarySourceFiles, $File::Find::name) if /\.d$/ },
      @dLibrarySourceDirs);
 
