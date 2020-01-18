@@ -11,6 +11,7 @@ import std.uuid : UUID;
 enum ProtocolError : ushort
 {
     BadProtocolVersion = 0x0000,
+    CannotAuthenticate = 0x0001,
 }
 
 final

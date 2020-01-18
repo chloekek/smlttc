@@ -18,6 +18,8 @@ my @ldcFlags         = qw(-O3 -dip1000);
 my @ldcUnittestFlags = qw(-main -unittest);
 
 my @dLibrarySourceFiles = qw(
+    sitrep/receive/authenticate/hardcoded.d
+    sitrep/receive/authenticate/package.d
     sitrep/receive/protocol.d
     sitrep/receive/serve.d
     util/binary.d
