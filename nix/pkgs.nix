@@ -4,6 +4,10 @@ let
         sha256 = "1jsvjqd3yp30y12wvkb6k42mpk8gfgnr8y9j995fpasjg1jymy9f";
     };
     config = {
+        packageOverrides = pkgs: {
+            pkg-configWithPackages =
+                pkgs.callPackage ./pkg-configWithPackages.nix {};
+        };
     };
 in
     {}: import tarball {inherit config;}

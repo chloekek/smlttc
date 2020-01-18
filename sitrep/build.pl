@@ -14,7 +14,8 @@ use File::Which qw(which);
 my %path = map { $_ => which($_) // die("which: $_") }
                qw(bash hivemind socat);
 
-my @ldcFlags         = qw(-O3 -dip1000);
+my @ldFlags          = split(/\s+/, qx{pkg-config --libs libsodium});
+my @ldcFlags         = (qw(-O3 -dip1000), map("-L$_", @ldFlags));
 my @ldcUnittestFlags = qw(-main -unittest);
 
 my @dLibrarySourceFiles = qw(
@@ -25,6 +26,7 @@ my @dLibrarySourceFiles = qw(
     util/binary.d
     util/io.d
     util/os.d
+    util/sodium.d
 );
 
 my $buildDir = 'build/sitrep';
