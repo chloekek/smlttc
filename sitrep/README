@@ -6,3 +6,13 @@ sitrep-receive
     Retrieves log messages on stdin and saves them to the database.
     It does not listen on a TCP address, but serves a single connection.
     It is meant to run under socat(1) or similar software for listening.
+
+
+    Authentication
+
+        To authenticate with the receiver, an identity and a key are necessary.
+        The identity is not a secret and the key is a secret.
+        The identity is looked up in the database in logarithmic time.
+        If that succeeds, the key is compared in constant time.
+        If that succeeds, authentication is complete.
+        Then, log messages may be sent.
