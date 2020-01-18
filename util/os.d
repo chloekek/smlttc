@@ -9,6 +9,10 @@
 ///     * Errors are reported by throwing exceptions.
 ///     * Names of subroutines remain unaltered.
 /// )
+///
+/// No other behavior is added to the system calls.
+/// This makes it easy to find their documentation.
+/// The documentation can be found in the man pages.
 module util.os;
 
 public import core.sys.posix.fcntl : O_RDONLY;
