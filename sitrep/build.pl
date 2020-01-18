@@ -4,7 +4,6 @@ use v5.12;
 use autodie qw(:all);
 use strict;
 
-use File::Find qw(find);
 use File::Path qw(make_path);
 use File::Slurp qw(write_file);
 use File::Which qw(which);
@@ -18,10 +17,13 @@ my %path = map { $_ => which($_) // die("which: $_") }
 my @ldcFlags         = qw(-O3 -dip1000);
 my @ldcUnittestFlags = qw(-main -unittest);
 
-my @dLibrarySourceDirs  = qw(sitrep/sitrep);
-my @dLibrarySourceFiles = qw(util/binary.d util/io.d util/os.d);
-find(sub { push(@dLibrarySourceFiles, $File::Find::name) if /\.d$/ },
-     @dLibrarySourceDirs);
+my @dLibrarySourceFiles = qw(
+    sitrep/receive/protocol.d
+    sitrep/receive/serve.d
+    util/binary.d
+    util/io.d
+    util/os.d
+);
 
 my $buildDir = 'build/sitrep';
 
