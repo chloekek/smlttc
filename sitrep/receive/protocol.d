@@ -10,9 +10,20 @@ import std.uuid : UUID;
 
 enum ProtocolStatus : ushort
 {
+    /// Sent when the protocol version that the client wants to use is not
+    /// supported by the server.
     BadProtocolVersion = 0x0000,
+
+    /// Sent when the authentication token the client sent contains a
+    /// non-existent identity or an invalid key.
     CannotAuthenticate = 0x0001,
+
+    /// Sent when authentication succeeded after the client sent an
+    /// authentication token.
     AuthenticationOk   = 0x0002,
+
+    /// Sent when a log message was successfully recorded after the client sent
+    /// a log message.
     LogMessageOk       = 0x0003,
 }
 
