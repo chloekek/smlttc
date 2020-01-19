@@ -6,6 +6,8 @@ import std.uuid : UUID;
 
 import sodium = util.sodium;
 
+/// Authenticate against a hardcoded mapping from identities to keys.
+/// This implementation is useful for testing.
 final
 class HardcodedAuthenticate
     : Authenticate
@@ -18,7 +20,7 @@ class HardcodedAuthenticate
         this.keysByIdentity = keysByIdentity;
     }
 
-    pure @safe
+    override pure @safe
     bool opCall(AuthenticationToken token) const scope
     {
         const key = token.identity in keysByIdentity;

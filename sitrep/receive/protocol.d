@@ -11,23 +11,27 @@ enum ProtocolStatus : ushort
 {
     /// Sent when the protocol version that the client wants to use is not
     /// supported by the server.
-    BadProtocolVersion = 0x0000,
+    BadProtocolVersion              = 0x0000,
 
     /// Sent when the authentication token the client sent contains a
     /// non-existent identity or an invalid key.
-    CannotAuthenticate = 0x0001,
+    CannotAuthenticate              = 0x0001,
 
     /// Sent when authentication succeeded after the client sent an
     /// authentication token.
-    AuthenticationOk   = 0x0002,
+    AuthenticationOk                = 0x0002,
 
     /// Sent when a log message was successfully recorded after the client sent
     /// a log message.
-    LogMessageOk       = 0x0003,
+    LogMessageOk                    = 0x0003,
 
     /// Sent when the protocol version that the client wants to use is accepted
     /// by the server. This protocol version will be used from now on.
-    ProtocolVersionOk  = 0x0004,
+    ProtocolVersionOk               = 0x0004,
+
+    /// Sent when a message could not be logged as the client is not authorized
+    /// to do so. This can happen when the client has no access to the journal.
+    LogMessageUnauthorized          = 0x0005,
 }
 
 final

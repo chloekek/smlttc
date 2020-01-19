@@ -22,6 +22,8 @@ my @dLibrarySourceFiles = qw(
     sitrep/receive/authenticate/hardcoded.d
     sitrep/receive/authenticate/package.d
     sitrep/receive/protocol.d
+    sitrep/receive/record/debug_.d
+    sitrep/receive/record/package.d
     sitrep/receive/serve.d
     util/binary.d
     util/io.d
