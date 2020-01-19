@@ -55,6 +55,10 @@ EOF
 write_file("$buildDir/hivemind", { perms => 0755 }, <<EOF);
 #!$path{bash}
 set -euo pipefail
+if (( \$# != 0 )); then
+    1>&2 echo "\$0: Too many arguments"
+    exit 1
+fi
 exec $path{hivemind} --root "\$PWD" $buildDir/Procfile
 EOF
 system('shellcheck', "$buildDir/hivemind");
