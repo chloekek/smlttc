@@ -15,6 +15,7 @@ void serve(I, O)(Authenticate authenticate, ref I i, ref O o)
         const protocolVersion = readProtocolVersion(i);
         final switch (protocolVersion) {
             case ProtocolVersion.V0:
+                writeProtocolStatus(o, ProtocolStatus.ProtocolVersionOk);
                 return serveV0(authenticate, i, o);
         }
     }

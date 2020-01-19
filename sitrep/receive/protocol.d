@@ -24,6 +24,10 @@ enum ProtocolStatus : ushort
     /// Sent when a log message was successfully recorded after the client sent
     /// a log message.
     LogMessageOk       = 0x0003,
+
+    /// Sent when the protocol version that the client wants to use is accepted
+    /// by the server. This protocol version will be used from now on.
+    ProtocolVersionOk  = 0x0004,
 }
 
 final
