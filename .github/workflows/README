@@ -1,0 +1,5 @@
+While it would be nice to put the workflow files where they belong—with the
+code they build—this is not possible with GitHub Actions. I tried putting
+symbolic links in this directory, but to no avail. So they are all in this
+directory, with symbolic links point towards them from the relevant
+directories.

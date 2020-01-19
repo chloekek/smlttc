@@ -1,0 +1,20 @@
+{
+    "name": "Sitrep CI",
+    "on": [ "push" ],
+    "jobs": {
+        "build": {
+            "runs-on": "ubuntu-latest",
+            "steps": [
+                { "uses": "actions/checkout@v1" },
+                {
+                    "name": "Install Nix",
+                    "run": "nix/install --daemon"
+                },
+                {
+                    "name": "Build Sitrep",
+                    "run": "/nix/var/nix/profiles/default/bin/nix run -ic sitrep/build.pl"
+                }
+            ]
+        }
+    }
+}
