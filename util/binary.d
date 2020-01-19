@@ -5,6 +5,12 @@ import std.range : ElementType, isInputRange, isOutputRange;
 import std.uuid : UUID;
 
 ////////////////////////////////////////////////////////////////////////////////
+// Traits
+
+enum isReader(I) = isInputRange!I && is(ElementType!I : ubyte);
+enum isWriter(O) = isOutputRange!(O, ubyte);
+
+////////////////////////////////////////////////////////////////////////////////
 // EOF
 
 /// Thrown when reading binary data from an empty input range.
@@ -31,8 +37,7 @@ string readInteger(string article, T)()
         /// Read %s %s from an input range of bytes.
         /// The integer is read in little endian byte order.
         %s read%s(I)(ref I i)
-            if (isInputRange!I
-            &&  is(ElementType!I : ubyte))
+            if (isReader!I)
         {
             import std.range : empty, front, iota, popFront;
             alias T = typeof(return);
@@ -82,7 +87,7 @@ string writeInteger(string article, T)()
         /// Write %s %s to an output range of bytes.
         /// The integer is written in little endian byte order.
         void write%s(O)(ref O o, %s x)
-            if (isOutputRange!(O, ubyte))
+            if (isWriter!O)
         {
             import std.range : iota, put;
             alias T = typeof(x);
@@ -108,8 +113,7 @@ mixin(writeInteger!("a",  long  ));
 // Arrays
 
 auto readArray(alias F, size_t n, I)(ref I i)
-    if (isInputRange!I
-    &&  is(ElementType!I : ubyte))
+    if (isReader!I)
 {
     import std.range : iota;
     typeof(F(i))[n] r;
@@ -119,8 +123,7 @@ auto readArray(alias F, size_t n, I)(ref I i)
 }
 
 auto readDynamicArray(alias F, I)(ref I i)
-    if (isInputRange!I
-    &&  is(ElementType!I : ubyte))
+    if (isReader!I)
 {
     import std.range : iota;
     const n = readUshort(i);
@@ -134,8 +137,7 @@ auto readDynamicArray(alias F, I)(ref I i)
 // UUIDs
 
 UUID readUuid(I)(ref I i)
-    if (isInputRange!I
-    &&  is(ElementType!I : ubyte))
+    if (isReader!I)
 {
     const bs = readArray!(readUbyte, 16)(i);
     return UUID(bs);

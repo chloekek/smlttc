@@ -2,7 +2,6 @@ module sitrep.receive.protocol;
 
 import util.binary;
 
-import std.range : ElementType, isInputRange, isOutputRange;
 import std.uuid : UUID;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -45,7 +44,7 @@ class ProtocolException
 }
 
 void writeProtocolStatus(O)(ref O o, ProtocolStatus status)
-    if (isOutputRange!(O, ubyte))
+    if (isWriter!O)
 {
     writeUshort(o, status);
 }
@@ -59,8 +58,7 @@ enum ProtocolVersion : ushort
 }
 
 ProtocolVersion readProtocolVersion(I)(ref I i)
-    if (isInputRange!I
-    &&  is(ElementType!I : ubyte))
+    if (isReader!I)
 {
     const raw = readUshort(i);
     switch (raw)
@@ -80,8 +78,7 @@ struct AuthenticationToken
 }
 
 AuthenticationToken readAuthenticationToken(I)(ref I i)
-    if (isInputRange!I
-    &&  is(ElementType!I : ubyte))
+    if (isReader!I)
 {
     auto identity = readUuid(i);
     auto key      = readUuid(i);
@@ -98,8 +95,7 @@ struct LogMessage
 }
 
 LogMessage readLogMessage(I)(ref I i)
-    if (isInputRange!I
-    &&  is(ElementType!I : ubyte))
+    if (isReader!I)
 {
     const journal = readUuid(i);
     auto  message = readDynamicArray!readUbyte(i);

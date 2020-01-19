@@ -3,15 +3,13 @@ module sitrep.receive.serve;
 import sitrep.receive.protocol;
 
 import sitrep.receive.authenticate : Authenticate;
-import std.range : ElementType, isInputRange, isOutputRange;
 import std.uuid : UUID;
-import util.binary : EofException;
+import util.binary : EofException, isReader, isWriter;
 
 @safe
 void serve(I, O)(Authenticate authenticate, ref I i, ref O o)
-    if (isInputRange!I
-    &&  is(ElementType!I : ubyte)
-    &&  isOutputRange!(O, ubyte))
+    if (isReader!I
+    &&  isWriter!O)
 {
     try {
         const protocolVersion = readProtocolVersion(i);
@@ -26,9 +24,8 @@ void serve(I, O)(Authenticate authenticate, ref I i, ref O o)
 
 private @safe
 void serveV0(I, O)(Authenticate authenticate, ref I i, ref O o)
-    if (isInputRange!I
-    &&  is(ElementType!I : ubyte)
-    &&  isOutputRange!(O, ubyte))
+    if (isReader!I
+    &&  isWriter!O)
 {
     const identity = serveV0Authentication(authenticate, i, o);
     for (;;)
@@ -37,9 +34,8 @@ void serveV0(I, O)(Authenticate authenticate, ref I i, ref O o)
 
 private @safe
 UUID serveV0Authentication(I, O)(Authenticate authenticate, ref I i, ref O o)
-    if (isInputRange!I
-    &&  is(ElementType!I : ubyte)
-    &&  isOutputRange!(O, ubyte))
+    if (isReader!I
+    &&  isWriter!O)
 {
     const authenticationToken = readAuthenticationToken(i);
     const authenticated = authenticate(authenticationToken);
@@ -51,9 +47,8 @@ UUID serveV0Authentication(I, O)(Authenticate authenticate, ref I i, ref O o)
 
 private @safe
 void serveV0LogMessage(I, O)(UUID identity, ref I i, ref O o)
-    if (isInputRange!I
-    &&  is(ElementType!I : ubyte)
-    &&  isOutputRange!(O, ubyte))
+    if (isReader!I
+    &&  isWriter!O)
 {
     const logMessage = readLogMessage(i);
     import std.format;import util.io;writeAll(2, format!"%s\n"(logMessage));
