@@ -1,6 +1,13 @@
 Sitrep is a program that stores log messages and extracts metrics from them.
 
 
+build.pl
+
+    The build script. Run it with “nix run” from the repository root.
+
+        nix run -ic sitrep/build.pl
+
+
 sitrep-receive
 
     Retrieves log messages on stdin and saves them to the database.
