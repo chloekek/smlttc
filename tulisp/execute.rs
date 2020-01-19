@@ -8,8 +8,13 @@ pub enum Value
 }
 
 #[derive(Clone, Copy)]
+pub struct Local(pub usize);
+
+#[derive(Clone)]
 pub enum Instr
 {
+    LdConst(Value),
+    LdLocal(Local),
     LdErrno,
     SysClose,
     SysExit,
@@ -17,9 +22,18 @@ pub enum Instr
     SysWrite,
 }
 
-pub fn executeInstr(stack: &mut Vec<Value>, instr: Instr)
+pub fn executeInstr(stack: &mut Vec<Value>, locals: &mut [Value], instr: &Instr)
 {
     match instr {
+        Instr::LdConst(value) => {
+            stack.push(value.clone());
+        },
+
+        Instr::LdLocal(local) => {
+            let value = locals[local.0].clone();
+            stack.push(value);
+        },
+
         Instr::LdErrno => {
             let result = unsafe { *libc::__errno_location() };
             pushInt(stack, result as i64);
