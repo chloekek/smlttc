@@ -14,5 +14,6 @@ in
         pkgs.gcc
         pkgs.hivemind
         pkgs.ldc
+        pkgs.shellcheck
         pkgs.socat
     ]

@@ -55,5 +55,6 @@ EOF
 write_file("$buildDir/hivemind", { perms => 0755 }, <<EOF);
 #!$path{bash}
 set -euo pipefail
-exec $path{hivemind} --root \$PWD $buildDir/Procfile
+exec $path{hivemind} --root "\$PWD" $buildDir/Procfile
 EOF
+system('shellcheck', "$buildDir/hivemind");
