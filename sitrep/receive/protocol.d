@@ -74,3 +74,21 @@ AuthenticationToken readAuthenticationToken(I)(ref I i)
     auto key      = readUuid(i);
     return AuthenticationToken(identity, key);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Log message
+
+struct LogMessage
+{
+    UUID    journal;
+    ubyte[] message;
+}
+
+LogMessage readLogMessage(I)(ref I i)
+    if (isInputRange!I
+    &&  is(ElementType!I : ubyte))
+{
+    const journal = readUuid(i);
+    auto  message = readDynamicArray!readUbyte(i);
+    return LogMessage(journal, message);
+}

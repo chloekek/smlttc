@@ -106,6 +106,7 @@ mixin(writeInteger!("a",  long  ));
 
 ////////////////////////////////////////////////////////////////////////////////
 // Arrays
+
 auto readArray(alias F, size_t n, I)(ref I i)
     if (isInputRange!I
     &&  is(ElementType!I : ubyte))
@@ -113,6 +114,18 @@ auto readArray(alias F, size_t n, I)(ref I i)
     import std.range : iota;
     typeof(F(i))[n] r;
     static foreach (m; iota(n))
+        r[m] = F(i);
+    return r;
+}
+
+auto readDynamicArray(alias F, I)(ref I i)
+    if (isInputRange!I
+    &&  is(ElementType!I : ubyte))
+{
+    import std.range : iota;
+    const n = readUshort(i);
+    auto  r = new typeof(F(i))[n];
+    foreach (m; iota(n))
         r[m] = F(i);
     return r;
 }
