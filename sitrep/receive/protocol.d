@@ -6,35 +6,37 @@ import std.range : ElementType, isInputRange, isOutputRange;
 import std.uuid : UUID;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Protocol errors
+// Protocol status
 
-enum ProtocolError : ushort
+enum ProtocolStatus : ushort
 {
     BadProtocolVersion = 0x0000,
     CannotAuthenticate = 0x0001,
+    AuthenticationOk   = 0x0002,
+    LogMessageOk       = 0x0003,
 }
 
 final
 class ProtocolException
     : Exception
 {
-    const(ProtocolError) error;
+    const(ProtocolStatus) status;
 
     pure @safe
-    this(ProtocolError error,
-         string        file = __FILE__,
-         size_t        line = __LINE__)
+    this(ProtocolStatus status,
+         string         file = __FILE__,
+         size_t         line = __LINE__)
     {
         import std.conv : to;
-        this.error = error;
-        super(error.to!string, file, line);
+        this.status = status;
+        super(status.to!string, file, line);
     }
 }
 
-void writeProtocolError(O)(ref O o, ProtocolError error)
+void writeProtocolStatus(O)(ref O o, ProtocolStatus status)
     if (isOutputRange!(O, ubyte))
 {
-    writeUshort(o, error);
+    writeUshort(o, status);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +55,7 @@ ProtocolVersion readProtocolVersion(I)(ref I i)
     switch (raw)
     {
         case 0:  return ProtocolVersion.V0;
-        default: throw new ProtocolException(ProtocolError.BadProtocolVersion);
+        default: throw new ProtocolException(ProtocolStatus.BadProtocolVersion);
     }
 }
 
