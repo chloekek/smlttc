@@ -1,0 +1,15 @@
+[project]
+name = "tulisp"
+version = "0.0.0"
+
+[dependencies]
+libc = { version = "0.2.66" }
+
+[lib]
+path = "lib.rs"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"

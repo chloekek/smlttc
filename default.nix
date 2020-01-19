@@ -8,9 +8,11 @@ let
 in
     [
         perl
+        pkg-config
         pkgs.bash
+        pkgs.cargo
+        pkgs.gcc
         pkgs.hivemind
         pkgs.ldc
         pkgs.socat
-        pkg-config
     ]

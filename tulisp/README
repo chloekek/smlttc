@@ -1,0 +1,4 @@
+Tulisp is a programming language.
+It exposes system calls with minimal change in name and behavior.
+It is not necessary to compile Tulisp code prior to running it;
+the interpreter will take care of that automatically.
