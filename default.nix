@@ -14,6 +14,7 @@ in
         pkgs.gcc
         pkgs.hivemind
         pkgs.ldc
+        pkgs.postgresql_12
         pkgs.shellcheck
         pkgs.socat
     ]
