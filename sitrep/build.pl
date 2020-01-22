@@ -90,7 +90,7 @@ if ! [[ -e $stateDir/postgresql-data ]]; then
         --username=postgres                 \\
         --pwfile=<(echo postgres)           \\
         --locale=en_US.UTF-8
-    find $stateDir/postgresql-data -name '*.conf' -execdir rm {} +
+    find $stateDir/postgresql-data -name '*.conf' -delete
 fi
 
 if ! [[ -e $stateDir/postgresql-sockets ]]; then
