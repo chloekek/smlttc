@@ -90,7 +90,7 @@ if ! [[ -e $stateDir/postgresql-data ]]; then
         --username=postgres                 \\
         --pwfile=<(echo postgres)           \\
         --locale=en_US.UTF-8
-    rm $stateDir/postgresql-data/{pg_hba.conf,pg_ident.conf,postgresql.auto.conf,postgresql.conf}
+    find $stateDir/postgresql-data -name '*.conf' -execdir rm {} +
 fi
 
 if ! [[ -e $stateDir/postgresql-sockets ]]; then
