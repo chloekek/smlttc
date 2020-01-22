@@ -77,7 +77,7 @@ EOF
 
 write_file("$buildDir/hivemind", { perms => 0755 }, <<EOF);
 #!$path{bash}
-set -euo pipefail
+set -efuo pipefail
 
 if (( \$# != 0 )); then
     1>&2 echo "\$0: Too many arguments"
