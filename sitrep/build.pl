@@ -14,7 +14,7 @@ use File::Which qw(which);
 my %path = map { $_ => which($_) // die("which: $_") }
                qw(bash hivemind initdb pg_isready postgres psql socat);
 
-my @ldFlags          = split(/\s+/, qx{pkg-config --libs libsodium});
+my @ldFlags          = split(/\s+/, qx{pkg-config --libs libpq libsodium});
 my @ldcFlags         = (qw(-O3 -dip1000), map("-L$_", @ldFlags));
 my @ldcUnittestFlags = qw(-main -unittest);
 
@@ -28,6 +28,7 @@ my @dLibrarySourceFiles = qw(
     util/binary.d
     util/io.d
     util/os.d
+    util/pq.d
     util/sodium.d
 );
 
@@ -95,7 +96,7 @@ EOF
 system('shellcheck', "$buildDir/postgresql.setup");
 
 write_file("$buildDir/Procfile", <<EOF);
-sitrep-receive: $path{socat} -d TCP-LISTEN:$port,fork,reuseaddr EXEC:$buildDir/sitrep-receive
+sitrep-receive: PGHOST=\$PWD/$stateDir/postgresql-sockets PGUSER=sitrep_application PGPASSWORD=\$PGUSER PGDATABASE=sitrep $path{socat} -d TCP-LISTEN:$port,fork,reuseaddr EXEC:$buildDir/sitrep-receive
 postgresql: $path{postgres} --config-file=$buildDir/postgresql.conf -k \$PWD/$stateDir/postgresql-sockets
 postgresql-setup: $buildDir/postgresql.setup && sleep infinity
 EOF
