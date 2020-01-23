@@ -12,7 +12,7 @@ use File::Which qw(which);
 # Constants
 
 my %path = map { $_ => which($_) // die("which: $_") }
-               qw(bash hivemind initdb postgres socat);
+               qw(bash hivemind initdb pg_isready postgres psql socat);
 
 my @ldFlags          = split(/\s+/, qx{pkg-config --libs libsodium});
 my @ldcFlags         = (qw(-O3 -dip1000), map("-L$_", @ldFlags));
@@ -63,16 +63,41 @@ client_encoding=UTF8
 EOF
 
 write_file("$buildDir/postgresql.hba", <<EOF);
-#       database   user       auth-method
-local   all        postgres   md5
+#       database   user                 auth-method
+local   all        postgres             md5
+local   sitrep     sitrep_migrate       md5
+local   sitrep     sitrep_application   md5
 EOF
 
 write_file("$buildDir/postgresql.ident", <<EOF);
 EOF
 
+write_file("$buildDir/postgresql.setup", { perms => 0755 }, <<EOF);
+#!$path{bash}
+set -efuo pipefail
+
+export PGHOST=\$PWD/$stateDir/postgresql-sockets
+export PGUSER=postgres
+export PGPASSWORD=\$PGUSER
+
+while ! $path{pg_isready}; do
+    sleep 0.1
+done
+
+$path{psql} --file=- <<'SQL'
+CREATE ROLE sitrep_migrate LOGIN PASSWORD 'sitrep_migrate';
+CREATE ROLE sitrep_application LOGIN PASSWORD 'sitrep_application';
+CREATE DATABASE sitrep OWNER sitrep_migrate;
+\\connect sitrep
+DROP SCHEMA public;
+SQL
+EOF
+system('shellcheck', "$buildDir/postgresql.setup");
+
 write_file("$buildDir/Procfile", <<EOF);
 sitrep-receive: $path{socat} -d TCP-LISTEN:$port,fork,reuseaddr EXEC:$buildDir/sitrep-receive
 postgresql: $path{postgres} --config-file=$buildDir/postgresql.conf -k \$PWD/$stateDir/postgresql-sockets
+postgresql-setup: $buildDir/postgresql.setup && sleep infinity
 EOF
 
 write_file("$buildDir/hivemind", { perms => 0755 }, <<EOF);
