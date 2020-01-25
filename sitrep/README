@@ -23,3 +23,8 @@ sitrep-receive
         If that succeeds, the key is compared in constant time.
         If that succeeds, authentication is complete.
         Then, log messages may be sent.
+
+
+database
+
+    The database schema, as a series of Sqitch migrations.

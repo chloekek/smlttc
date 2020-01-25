@@ -1,7 +1,7 @@
 module main;
 
 import sitrep.receive.authenticate.hardcoded : HardcodedAuthenticate;
-import sitrep.receive.record.debug_ : DebugRecord;
+import sitrep.receive.record.database : DatabaseRecord;
 import sitrep.receive.serve : serve;
 import std.uuid : UUID;
 import util.io : Reader, Writer;
@@ -23,6 +23,6 @@ void main()
             UUID("09fbbd11-0f08-4ecd-8427-da8ce682d162"),
     ];
     auto authenticate = new HardcodedAuthenticate(keysByIdentity);
-    auto record = new DebugRecord!Writer(Writer(2));
+    auto record       = new DatabaseRecord(db);
     serve(authenticate, record, i, o);
 }

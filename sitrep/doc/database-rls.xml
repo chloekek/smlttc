@@ -1,0 +1,32 @@
+<!DOCTYPE section [
+    <!ENTITY pg-rls "https://www.postgresql.org/docs/12/ddl-rowsecurity.html">
+]>
+<section xmlns="http://docbook.org/ns/docbook"
+         xml:id="database-rls">
+    <indexterm><primary>RLS</primary></indexterm>
+    <indexterm><primary>authorization</primary></indexterm>
+    <indexterm><primary>identity variable</primary></indexterm>
+    <indexterm><primary>row-level security</primary></indexterm>
+    <indexterm><primary>sitrep.set_identity_id(uuid)</primary></indexterm>
+    <title>Row-level security</title>
+    <para>
+        There is a transaction-local variable that stores “the identity”.
+        The application must set this variable using
+        the <function>sitrep.set_identity_id(uuid)</function> function
+        prior to accessing log messages and journals.
+        <ulink url="&pg-rls;">Row-level security policies</ulink>
+        use this variable to perform authorization checks.
+        If the application does not set the variable,
+        attempts to access data subject to authorization checks will fail.
+    </para>
+    <warning>
+        <para>
+            While the application does not need to
+            perform authorization checks itself,
+            it must verify the authenticity of inputs prior to calling
+            the <function>sitrep.set_identity_id(uuid)</function> function.
+            Feeding untrusted input into the function
+            can lead to identities, journals, and other data being compromised.
+        </para>
+    </warning>
+</section>

@@ -1,0 +1,69 @@
+<!DOCTYPE section [
+    <!ENTITY pg-roles "https://www.postgresql.org/docs/12/user-manag.html">
+    <!ENTITY pg-passwd "https://www.postgresql.org/docs/12/auth-password.html">
+]>
+<section xmlns="http://docbook.org/ns/docbook"
+         xml:id="database-roles">
+    <title>Roles</title>
+    <indexterm><primary>postgres</primary></indexterm>
+    <indexterm><primary>sitrep_application</primary></indexterm>
+    <indexterm><primary>sitrep_migrate</primary></indexterm>
+    <para>
+        The cluster defines several <ulink url="&pg-roles;">roles</ulink>,
+        each with their own purpose and privileges.
+        Roles are created by the cluster setup script.
+        Privileges are granted by migration scripts.
+    </para>
+    <glosslist>
+        <glossentry>
+            <glossterm>
+                <systemitem class="username">postgres</systemitem>
+            </glossterm>
+            <glossdef>
+                <para>
+                    The cluster superuser.
+                    Used for tasks that need superuser privileges or
+                    privileges not granted to other roles.
+                    While other roles are created by the cluster setup script,
+                    this role is created by initdb.
+                    This role is used mainly by the cluster setup script.
+                </para>
+            </glossdef>
+        </glossentry>
+        <glossentry>
+            <glossterm>
+                <systemitem class="username">sitrep_application</systemitem>
+            </glossterm>
+            <glossdef>
+                <para>
+                    The application role,
+                    used by <command>sitrep-receive</command>
+                    and other server-side applications.
+                    This role cannot modify the database schema.
+                    This role can read and write rows,
+                    and is subject to row-level security.
+                </para>
+            </glossdef>
+        </glossentry>
+        <glossentry>
+            <glossterm>
+                <systemitem class="username">sitrep_migrate</systemitem>
+            </glossterm>
+            <glossdef>
+                <para>
+                    The migration role, used by the migration scripts.
+                    This role can modify the schema and grant privileges.
+                    Because of its potential need to modify data en masse,
+                    this role is not subject to row-level security.
+                </para>
+            </glossdef>
+        </glossentry>
+    </glosslist>
+    <section xml:id="database-authentication">
+        <title>Authentication</title>
+        <ulink url="&pg-passwd;">Password authentication</ulink> is used for
+        all roles in all environments.
+        In the development environment,
+        the password for each role is equivalent to the name of the role.
+    </section>
+</section>

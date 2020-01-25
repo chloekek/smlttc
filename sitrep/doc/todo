@@ -1,0 +1,8 @@
+Document journal creation with deferred constraint.
+
+Document tablespaces.
+
+Document partitioned sitrep.log_messages table.
+Document that there are no grants on the partitions, on purpose.
+Document was_extracted_from column.
+Document use of BIGINT.

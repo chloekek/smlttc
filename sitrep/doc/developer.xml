@@ -1,0 +1,7 @@
+<part xmlns="http://docbook.org/ns/docbook"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xml:id="developer">
+    <title>Developer manual</title>
+    <xi:include href="database.xml" />
+    <xi:include href="documentation.xml" />
+</part>

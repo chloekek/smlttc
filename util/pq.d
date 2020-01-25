@@ -38,6 +38,25 @@ extern(C) nothrow private @nogc @system
         PGRES_SINGLE_TUPLE,
     }
 
+    enum PG_DIAG_SEVERITY              = cast(int) 'S';
+    enum PG_DIAG_SEVERITY_NONLOCALIZED = cast(int) 'V';
+    enum PG_DIAG_SQLSTATE              = cast(int) 'C';
+    enum PG_DIAG_MESSAGE_PRIMARY       = cast(int) 'M';
+    enum PG_DIAG_MESSAGE_DETAIL        = cast(int) 'D';
+    enum PG_DIAG_MESSAGE_HINT          = cast(int) 'H';
+    enum PG_DIAG_STATEMENT_POSITION    = cast(int) 'P';
+    enum PG_DIAG_INTERNAL_POSITION     = cast(int) 'p';
+    enum PG_DIAG_INTERNAL_QUERY        = cast(int) 'q';
+    enum PG_DIAG_CONTEXT               = cast(int) 'W';
+    enum PG_DIAG_SCHEMA_NAME           = cast(int) 's';
+    enum PG_DIAG_TABLE_NAME            = cast(int) 't';
+    enum PG_DIAG_COLUMN_NAME           = cast(int) 'c';
+    enum PG_DIAG_DATATYPE_NAME         = cast(int) 'd';
+    enum PG_DIAG_CONSTRAINT_NAME       = cast(int) 'n';
+    enum PG_DIAG_SOURCE_FILE           = cast(int) 'F';
+    enum PG_DIAG_SOURCE_LINE           = cast(int) 'L';
+    enum PG_DIAG_SOURCE_FUNCTION       = cast(int) 'R';
+
     PGconn* PQconnectdb(scope const(char)* conninfo);
     void PQfinish(PGconn* conn);
 
@@ -54,6 +73,7 @@ extern(C) nothrow private @nogc @system
                            int                 resultFormat);
 
     ExecStatusType PQresultStatus(scope const(PGresult)* res);
+    char* PQresultErrorField(const(PGresult)* res, int fieldcode);
     char* PQresultErrorMessage(const(PGresult)* res);
     int PQntuples(scope const(PGresult)* res);
     int PQnfields(scope const(PGresult)* res);
@@ -194,9 +214,14 @@ final
 class ExecuteException
     : PostgresqlException
 {
+    immutable(char[]) constraintName;
+    immutable(char[]) sqlstate;
+
     nothrow private pure @nogc @safe
     this(string msg, string file = __FILE__, size_t line = __LINE__)
     {
+        constraintName = null;
+        sqlstate       = null;
         super(msg, file, line);
     }
 
@@ -206,7 +231,9 @@ class ExecuteException
          size_t line = __LINE__)
     {
         import std.string : fromStringz;
-        immutable msg = PQresultErrorMessage(result).fromStringz.idup;
+        immutable msg  = PQresultErrorMessage(result).fromStringz.idup;
+        constraintName = PQresultErrorField(result, PG_DIAG_CONSTRAINT_NAME).fromStringz.idup;
+        sqlstate       = PQresultErrorField(result, PG_DIAG_SQLSTATE).fromStringz.idup;
         super(msg, file, line);
     }
 }

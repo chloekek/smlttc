@@ -1,0 +1,18 @@
+<!DOCTYPE chapter [
+    <!ENTITY pg "https://www.postgresql.org">
+]>
+<chapter xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xml:id="database">
+    <title>Database</title>
+    <section>
+        <para>
+            Log messages and all metadata are stored in the database.
+            The database is accessed through
+            the <ulink url="&pg;">PostgreSQL</ulink> DBMS.
+        </para>
+    </section>
+    <xi:include href="database-roles.xml" />
+    <xi:include href="database-rls.xml" />
+    <xi:include href="database-acl.xml" />
+</chapter>

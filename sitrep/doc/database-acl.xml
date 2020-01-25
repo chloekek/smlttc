@@ -1,0 +1,22 @@
+<section xmlns="http://docbook.org/ns/docbook"
+         xml:id="database-acl">
+    <indexterm><primary>ACL</primary></indexterm>
+    <indexterm><primary>access control list</primary></indexterm>
+    <indexterm><primary>authorization</primary></indexterm>
+    <title>Access control lists</title>
+    <para>
+        An access control list, or ACL for short,
+        is a database table that configures authorization.
+        An ACL pairs identities with foreign keys to other objects,
+        and RLS policies check that suitable such pairs exist in the ACL.
+    </para>
+    <note>
+        <para>
+            Not all authorization checks use ACLs.
+            ACLs are used only for associating identities to other objects,
+            such as journals.
+            Authorization checks that do not need ACLs
+            are implemented differently.
+        </para>
+    </note>
+</section>

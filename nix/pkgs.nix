@@ -5,6 +5,7 @@ let
     };
     config = {
         packageOverrides = pkgs: {
+            docbook2html = pkgs.callPackage ./docbook2html.nix {};
             pkg-configWithPackages =
                 pkgs.callPackage ./pkg-configWithPackages.nix {};
         };

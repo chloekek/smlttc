@@ -13,10 +13,13 @@ in
         pkg-config
         pkgs.bash
         pkgs.cargo
+        pkgs.docbook2html
         pkgs.gcc
         pkgs.hivemind
         pkgs.ldc
+        pkgs.rsync
         pkgs.shellcheck
         pkgs.socat
+        pkgs.sqitchPg
         postgresql
     ]

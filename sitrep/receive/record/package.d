@@ -19,11 +19,16 @@ class UnauthorizedRecordException
     : Exception
 {
     const(UUID) identity;
+    const(UUID) journal;
 
     nothrow pure @nogc @safe
-    this(UUID identity, string file = __FILE__, size_t line = __LINE__)
+    this(UUID identity,
+         UUID journal,
+         string file = __FILE__,
+         size_t line = __LINE__)
     {
         this.identity = identity;
+        this.journal  = journal;
         super("Unauthorized", file, line);
     }
 }
