@@ -10,11 +10,6 @@ build.pl
 
 sitrep-receive
 
-    Retrieves log messages on stdin and saves them to the database.
-    It does not listen on a TCP address, but serves a single connection.
-    It is meant to run under socat(1) or similar software for listening.
-
-
     Authentication
 
         To authenticate with the receiver, an identity and a key are necessary.

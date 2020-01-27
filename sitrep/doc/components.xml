@@ -1,0 +1,24 @@
+<chapter xmlns="http://docbook.org/ns/docbook"
+         xml:id="components">
+    <title>Components</title>
+    <para>
+        On the server side, there are various components that work together.
+    </para>
+    <glosslist>
+        <glossentry>
+            <glossterm>
+                <systemitem class="username">sitrep-receive</systemitem>
+            </glossterm>
+            <glossdef>
+                <para>
+                    Retrieves log messages on stdin 
+                    and saves them to the database.
+                    It does not listen on a TCP address, 
+                    but serves a single connection.
+                    It is meant to run under socat(1) 
+                    or similar software for listening.
+                </para>
+            </glossdef>
+        </glossentry>
+    </glosslist>
+</chapter>
