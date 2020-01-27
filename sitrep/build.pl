@@ -81,10 +81,10 @@ client_encoding=UTF8
 EOF
 
 write_file("$buildDir/postgresql.hba", <<EOF);
-#       database   user                 auth-method
-local   all        postgres             md5
-local   sitrep     sitrep_migrate       md5
-local   sitrep     sitrep_application   md5
+#       database   user             auth-method
+local   all        postgres         md5
+local   sitrep     sitrep_migrate   md5
+local   sitrep     sitrep_receive   md5
 EOF
 
 write_file("$buildDir/postgresql.ident", <<EOF);
@@ -112,7 +112,7 @@ export PGHOST=\$PWD/$stateDir/postgresql-sockets
     mkdir --parents $stateDir/postgresql-tablespaces/sitrep_log_messages_extracted_from
     $path{psql} --file=- <<SQL
 CREATE ROLE sitrep_migrate LOGIN BYPASSRLS PASSWORD 'sitrep_migrate';
-CREATE ROLE sitrep_application LOGIN PASSWORD 'sitrep_application';
+CREATE ROLE sitrep_receive LOGIN PASSWORD 'sitrep_receive';
 CREATE DATABASE sitrep OWNER sitrep_migrate;
 CREATE TABLESPACE sitrep_log_messages_in_need_of_extraction
     LOCATION '\$PWD/$stateDir/postgresql-tablespaces/sitrep_log_messages_in_need_of_extraction';
@@ -136,7 +136,7 @@ EOF
 system('shellcheck', "$buildDir/postgresql.setup");
 
 write_file("$buildDir/Procfile", <<EOF);
-sitrep-receive: PGHOST=\$PWD/$stateDir/postgresql-sockets PGUSER=sitrep_application PGPASSWORD=\$PGUSER PGDATABASE=sitrep $path{socat} -d TCP-LISTEN:$port,fork,reuseaddr EXEC:$buildDir/sitrep-receive
+sitrep-receive: PGHOST=\$PWD/$stateDir/postgresql-sockets PGUSER=sitrep_receive PGPASSWORD=\$PGUSER PGDATABASE=sitrep $path{socat} -d TCP-LISTEN:$port,fork,reuseaddr EXEC:$buildDir/sitrep-receive
 postgresql: $path{postgres} --config-file=$buildDir/postgresql.conf -k \$PWD/$stateDir/postgresql-sockets
 postgresql-setup: $buildDir/postgresql.setup && sleep infinity
 EOF

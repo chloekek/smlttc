@@ -7,7 +7,7 @@ CREATE SCHEMA sitrep;
 
 GRANT USAGE
     ON SCHEMA sitrep
-    TO sitrep_application;
+    TO sitrep_receive;
 
 --------------------------------------------------------------------------------
 -- Function sitrep.current_identity_id
@@ -38,7 +38,7 @@ CREATE TABLE sitrep.identities (
 
 GRANT SELECT, INSERT, UPDATE, DELETE
     ON TABLE sitrep.identities
-    TO sitrep_application;
+    TO sitrep_receive;
 
 ALTER TABLE sitrep.identities
     ENABLE ROW LEVEL SECURITY;
@@ -63,7 +63,7 @@ CREATE TABLE sitrep.journals (
 
 GRANT SELECT, INSERT, UPDATE, DELETE
     ON TABLE sitrep.journals
-    TO sitrep_application;
+    TO sitrep_receive;
 
 --------------------------------------------------------------------------------
 -- Table sitrep.log_messages
@@ -102,7 +102,7 @@ CREATE TABLE sitrep.log_messages_extracted_from
 
 GRANT SELECT, INSERT, UPDATE, DELETE
     ON TABLE sitrep.log_messages
-    TO sitrep_application;
+    TO sitrep_receive;
 
 --------------------------------------------------------------------------------
 -- Table sitrep.journal_acl
@@ -127,7 +127,7 @@ CREATE TABLE sitrep.journal_acl (
 
 GRANT SELECT, INSERT, UPDATE, DELETE
     ON TABLE sitrep.journal_acl
-    TO sitrep_application;
+    TO sitrep_receive;
 
 ALTER TABLE sitrep.journals
     ENABLE ROW LEVEL SECURITY;

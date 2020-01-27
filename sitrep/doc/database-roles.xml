@@ -6,8 +6,8 @@
          xml:id="database-roles">
     <title>Roles</title>
     <indexterm><primary>postgres</primary></indexterm>
-    <indexterm><primary>sitrep_application</primary></indexterm>
     <indexterm><primary>sitrep_migrate</primary></indexterm>
+    <indexterm><primary>sitrep_receive</primary></indexterm>
     <para>
         The cluster defines several <ulink url="&pg-roles;">roles</ulink>,
         each with their own purpose and privileges.
@@ -32,21 +32,6 @@
         </glossentry>
         <glossentry>
             <glossterm>
-                <systemitem class="username">sitrep_application</systemitem>
-            </glossterm>
-            <glossdef>
-                <para>
-                    The application role,
-                    used by <command>sitrep-receive</command>
-                    and other server-side applications.
-                    This role cannot modify the database schema.
-                    This role can read and write rows,
-                    and is subject to row-level security.
-                </para>
-            </glossdef>
-        </glossentry>
-        <glossentry>
-            <glossterm>
                 <systemitem class="username">sitrep_migrate</systemitem>
             </glossterm>
             <glossdef>
@@ -55,6 +40,19 @@
                     This role can modify the schema and grant privileges.
                     Because of its potential need to modify data en masse,
                     this role is not subject to row-level security.
+                </para>
+            </glossdef>
+        </glossentry>
+        <glossentry>
+            <glossterm>
+                <systemitem class="username">sitrep_receive</systemitem>
+            </glossterm>
+            <glossdef>
+                <para>
+                    The role used by <command>sitrep-receive</command>.
+                    This role cannot modify the database schema.
+                    This role can read and write rows,
+                    and is subject to row-level security.
                 </para>
             </glossdef>
         </glossentry>
