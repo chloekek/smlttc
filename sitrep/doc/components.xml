@@ -15,7 +15,7 @@
                     and saves them to the database.
                     It does not listen on a TCP address, 
                     but serves a single connection.
-                    It is meant to run under socat(1) 
+                    It is meant to run under <command>socat</command>
                     or similar software for listening.
                 </para>
             </glossdef>
