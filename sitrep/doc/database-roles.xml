@@ -50,9 +50,8 @@
             <glossdef>
                 <para>
                     The role used by <command>sitrep-receive</command>.
-                    This role cannot modify the database schema.
-                    This role can read and write rows,
-                    and is subject to row-level security.
+                    This role is subject to row-level security
+                    because it interacts directly with users.
                 </para>
             </glossdef>
         </glossentry>
