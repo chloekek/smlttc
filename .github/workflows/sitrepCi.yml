@@ -13,6 +13,10 @@
                 {
                     "name": "Build Sitrep",
                     "run": "/nix/var/nix/profiles/default/bin/nix run -ic snowflake build.pl sitrep"
+                },
+                {
+                    "name": "Run unit tests",
+                    "run": "UNITTEST=Y build/artifact/sitrep-sitrep-receive/sitrep-receive"
                 }
             ]
         }
