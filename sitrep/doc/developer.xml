@@ -5,4 +5,5 @@
     <xi:include href="components.xml" />
     <xi:include href="database.xml" />
     <xi:include href="documentation.xml" />
+    <xi:include href="testing.xml" />
 </part>

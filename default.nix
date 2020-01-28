@@ -9,17 +9,20 @@ let
     pkg-configPackages = [ pkgs.libsodium.dev postgresql ];
 in
     [
-        perl
         pkg-config
         pkgs.bash
         pkgs.cargo
+        pkgs.coreutils
         pkgs.docbook2html
+        pkgs.findutils
         pkgs.gcc
+        pkgs.gnused
         pkgs.hivemind
         pkgs.ldc
-        pkgs.rsync
         pkgs.shellcheck
+        pkgs.snowflake
         pkgs.socat
         pkgs.sqitchPg
+        pkgs.which
         postgresql
     ]

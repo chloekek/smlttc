@@ -1,0 +1,12 @@
+<chapter xmlns="http://docbook.org/ns/docbook"
+         xml:id="testing">
+    <indexterm><primary>UNITTEST</primary></indexterm>
+    <title>Testing</title>
+    <para>
+        To run the unit tests for a particular program,
+        invoke the program with the <envar>UNITTEST</envar> variable set
+        to the value <userinput>Y</userinput>.
+        In this case, the program will stop running
+        after executing the unit tests.
+    </para>
+</chapter>

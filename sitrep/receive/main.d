@@ -1,17 +1,15 @@
-module main;
-
-import sitrep.receive.authenticate.hardcoded : HardcodedAuthenticate;
-import sitrep.receive.record.database : DatabaseRecord;
-import sitrep.receive.serve : serve;
-import std.uuid : UUID;
-import util.io : Reader, Writer;
-
-import pq = util.pq;
+module sitrep.receive.main;
 
 @safe
 void main()
 {
-    auto db = pq.Connection("");
+    import sitrep.receive.authenticate.hardcoded : HardcodedAuthenticate;
+    import sitrep.receive.record.database        : DatabaseRecord;
+    import sitrep.receive.serve                  : serve;
+    import std.uuid                              : UUID;
+    import util.io                               : Reader, Writer;
+    import util.pq                               : Connection;
+    auto db = Connection("");
     const result = db.execute("SELECT $1::text, $2, version()", [null, "a"]);
     Writer(2).put(result[0, 0] ~ "\n");
     Writer(2).put(result[0, 1] ~ "\n");

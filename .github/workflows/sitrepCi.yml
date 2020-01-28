@@ -12,7 +12,7 @@
                 },
                 {
                     "name": "Build Sitrep",
-                    "run": "/nix/var/nix/profiles/default/bin/nix run -ic sitrep/build.pl"
+                    "run": "/nix/var/nix/profiles/default/bin/nix run -ic snowflake build.pl sitrep"
                 }
             ]
         }

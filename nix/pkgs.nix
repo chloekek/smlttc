@@ -8,6 +8,7 @@ let
             docbook2html = pkgs.callPackage ./docbook2html.nix {};
             pkg-configWithPackages =
                 pkgs.callPackage ./pkg-configWithPackages.nix {};
+            snowflake = pkgs.callPackage ./snowflake.nix {};
         };
     };
 in

@@ -5,12 +5,12 @@
          xmlns:xi="http://www.w3.org/2001/XInclude"
          xml:id="documentation">
     <title>Documentation</title>
+    <indexterm><primary>doc</primary></indexterm>
     <indexterm><primary>nix/docbook2html.nix</primary></indexterm>
-    <indexterm><primary>sitrep/build.pl</primary></indexterm>
     <para>
         The documentation is written in <ulink url="&docbook;">DocBook</ulink>.
-        It is converted into HTML using the DocBook XSLT stylesheets.
-        See <filename>sitrep/build.pl</filename> for the build script,
-        and <filename>nix/docbook2html.nix</filename> for the XSLT application.
+        It is converted into HTML using the DocBook XSLT stylesheets
+        by the <filename>nix/docbook2html.nix</filename> program.
+        The artifact is called <filename>doc</filename>.
     </para>
 </chapter>
