@@ -30,6 +30,16 @@ immutable(char)[] encodeUuid(UUID value)
     return value.toString;
 }
 
+pure @safe
+UUID decodeUuid(const(char)[] encoding)
+{
+    import std.uuid : UUIDParsingException;
+    try
+        return UUID(encoding);
+    catch (UUIDParsingException ex)
+        throw new DecodeException(ex.msg);
+}
+
 nothrow pure @safe
 char[] encodeBytea(const(ubyte)[] value)
 {

@@ -1,0 +1,15 @@
+<chapter xmlns="http://docbook.org/ns/docbook"
+         xml:id="authentication">
+    <indexterm><primary>token</primary></indexterm>
+    <title>Authentication</title>
+    <para>
+        Every remote procedure call and stream of log messages
+        is accompanied by an identity and a token.
+        A token is a sequence of 128 bits that allows the server
+        to verify the identity of the client.
+        Tokens can be created either by logging in with a password,
+        or by creating one explicitly via the API.
+        Each token has an expiry date.
+        After the expiry date, the token can no longer be used.
+    </para>
+</chapter>

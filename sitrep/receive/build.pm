@@ -10,6 +10,7 @@ my @ldFlags  = split(/\s+/, qx{pkg-config --libs libpq libsodium});
 my @ldcFlags = (qw(-O3 -dip1000 -unittest), do { map { "-L$_" } @ldFlags });
 
 my @dSourceFiles = qw(
+    sitrep/receive/authenticate/database.d
     sitrep/receive/authenticate/hardcoded.d
     sitrep/receive/authenticate/package.d
     sitrep/receive/main.d

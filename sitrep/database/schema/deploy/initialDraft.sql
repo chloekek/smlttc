@@ -47,6 +47,54 @@ CREATE POLICY self
     );
 
 --------------------------------------------------------------------------------
+-- Table sitrep.authentication_tokens
+
+CREATE TABLE sitrep.authentication_tokens (
+    id uuid,
+    CONSTRAINT authentication_tokens_pk
+        PRIMARY KEY (id),
+
+    owner_id uuid NOT NULL,
+    CONSTRAINT authentication_tokens_owner_fk
+        FOREIGN KEY (owner_id)
+        REFERENCES sitrep.identities (id)
+        ON DELETE CASCADE,
+
+    name    TEXT                     NOT NULL,
+    key     uuid                     NOT NULL,
+    expires TIMESTAMP WITH TIME ZONE NOT NULL
+);
+
+CREATE INDEX authentication_tokens_owner_ix
+    ON sitrep.authentication_tokens
+    (owner_id);
+
+CREATE INDEX authentication_tokens_expires_ix
+    ON sitrep.authentication_tokens
+    (expires);
+
+GRANT SELECT
+    ON TABLE sitrep.authentication_tokens
+    TO sitrep_receive;
+
+ALTER TABLE sitrep.authentication_tokens
+    ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY self
+    ON sitrep.authentication_tokens
+    AS PERMISSIVE
+    USING (
+        authentication_tokens.owner_id = sitrep.current_identity_id()
+    );
+
+CREATE POLICY expiry
+    ON sitrep.authentication_tokens
+    AS RESTRICTIVE
+    USING (
+        authentication_tokens.expires > now()
+    );
+
+--------------------------------------------------------------------------------
 -- Table sitrep.journals
 
 CREATE TABLE sitrep.journals (

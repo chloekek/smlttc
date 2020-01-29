@@ -2,4 +2,5 @@
       xmlns:xi="http://www.w3.org/2001/XInclude"
       xml:id="user">
     <title>User manual</title>
+    <xi:include href="authentication.xml" />
 </part>

@@ -173,6 +173,12 @@ public:
         raw = null;
     }
 
+    nothrow @nogc @trusted
+    size_t rows() const scope
+    {
+        return PQntuples(raw);
+    }
+
     @trusted
     const(char)[] opIndex(size_t row, size_t column) const return scope
     {
