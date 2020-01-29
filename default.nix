@@ -11,11 +11,9 @@ in
     [
         pkg-config
         pkgs.bash
-        pkgs.cargo
         pkgs.coreutils
         pkgs.docbook2html
         pkgs.findutils
-        pkgs.gcc
         pkgs.gnused
         pkgs.hivemind
         pkgs.ldc

@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-set -efuo pipefail
-shellcheck tulisp/cargo
-export CARGO_TARGET_DIR="$PWD/build/tulisp"
-cd tulisp
-exec cargo "$@"
