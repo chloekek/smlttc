@@ -36,10 +36,6 @@ CREATE TABLE sitrep.identities (
     name TEXT NOT NULL
 );
 
-GRANT SELECT, INSERT, UPDATE, DELETE
-    ON TABLE sitrep.identities
-    TO sitrep_receive;
-
 ALTER TABLE sitrep.identities
     ENABLE ROW LEVEL SECURITY;
 
@@ -61,7 +57,7 @@ CREATE TABLE sitrep.journals (
     name TEXT NOT NULL
 );
 
-GRANT SELECT, INSERT, UPDATE, DELETE
+GRANT SELECT
     ON TABLE sitrep.journals
     TO sitrep_receive;
 
@@ -100,7 +96,7 @@ CREATE TABLE sitrep.log_messages_extracted_from
     ) FOR VALUES IN (TRUE)
     TABLESPACE sitrep_log_messages_extracted_from;
 
-GRANT SELECT, INSERT, UPDATE, DELETE
+GRANT INSERT
     ON TABLE sitrep.log_messages
     TO sitrep_receive;
 
@@ -125,7 +121,7 @@ CREATE TABLE sitrep.journal_acl (
     can_record_log_message boolean NOT NULL
 );
 
-GRANT SELECT, INSERT, UPDATE, DELETE
+GRANT SELECT
     ON TABLE sitrep.journal_acl
     TO sitrep_receive;
 
