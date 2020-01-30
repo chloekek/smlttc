@@ -144,6 +144,14 @@ CREATE TABLE sitrep.log_messages_extracted_from
     ) FOR VALUES IN (TRUE)
     TABLESPACE sitrep_log_messages_extracted_from;
 
+CREATE INDEX log_messages_in_need_of_extraction_journal_ix
+    ON sitrep.log_messages_in_need_of_extraction
+    (journal_id);
+
+CREATE INDEX log_messages_extracted_from_journal_ix
+    ON sitrep.log_messages_extracted_from
+    (journal_id);
+
 GRANT INSERT
     ON TABLE sitrep.log_messages
     TO sitrep_receive;
@@ -168,6 +176,10 @@ CREATE TABLE sitrep.journal_acl (
 
     can_record_log_message boolean NOT NULL
 );
+
+CREATE INDEX journal_acl_journal_ix
+    ON sitrep.journal_acl
+    (journal_id);
 
 GRANT SELECT
     ON TABLE sitrep.journal_acl
