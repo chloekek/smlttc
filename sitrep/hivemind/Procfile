@@ -1,3 +1,4 @@
 sitrep-receive: PGHOST=$PWD/state/sitrep/database/sockets PGUSER=sitrep_receive PGPASSWORD=$PGUSER PGDATABASE=sitrep socat -d TCP-LISTEN:1080,fork,reuseaddr EXEC:@SITREP_RECEIVE@/sitrep-receive
 postgresql: postgres --config-file=@POSTGRESQL_CONF@/postgresql.conf -k $PWD/state/sitrep/database/sockets
 database-setup: @SETUP_BASH@/setup.bash && sleep infinity
+integration-test: if [ "$INTEGRATIONTEST" = Y ]; then sleep 2.5 && prove --recurse --verbose @INTEGRATION_TEST@/t; echo $? > state/prove.status; else sleep infinity; fi

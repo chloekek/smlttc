@@ -14,9 +14,11 @@ in
         pkgs.coreutils
         pkgs.docbook2html
         pkgs.findutils
+        pkgs.getLocaleArchive
         pkgs.gnused
         pkgs.hivemind
         pkgs.ldc
+        pkgs.perl
         pkgs.shellcheck
         pkgs.snowflake
         pkgs.socat

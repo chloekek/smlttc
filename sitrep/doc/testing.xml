@@ -9,4 +9,14 @@
         In this case, the program will stop running
         after executing the unit tests.
     </para>
+    <para>
+        The integration tests span across programs.
+        They test the system as a whole.
+        To run the integration tests,
+        invoke <command>hivemind.bash</command>
+        with the <envar>INTEGRATIONTEST</envar> variable set
+        to the value <userinput>Y</userinput>.
+        In this case, Hivemind will stop running
+        after executing the integration tests.
+    </para>
 </chapter>

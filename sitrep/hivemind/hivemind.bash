@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -efuo pipefail
 
+export LOCALE_ARCHIVE=@LOCALE_ARCHIVE@
+
 if (( $# != 0 )); then
     1>&2 echo "$0: This command takes no arguments"
     exit 1

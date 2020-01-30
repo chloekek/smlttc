@@ -9,6 +9,7 @@ let
             pkg-configWithPackages =
                 pkgs.callPackage ./pkg-configWithPackages.nix {};
             snowflake = pkgs.callPackage ./snowflake.nix {};
+            getLocaleArchive = pkgs.callPackage ./getLocaleArchive.nix {};
         };
     };
 in
