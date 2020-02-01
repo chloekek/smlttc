@@ -86,4 +86,30 @@ BASH
     },
 );
 
+our $with_bash = Snowflake::Rule->new(
+    name => 'sitrep » database » with.bash',
+    dependencies => [
+        $postgresql_conf,
+        $setup_bash,
+    ],
+    sources => {
+        'with.bash.template' =>
+            ['on_disk', 'sitrep/database/with.bash'],
+        'snowflake-build' => bash_strict(<<'BASH'),
+            postgresql_conf=${1#../../../}
+            setup_bash=${2#../../../}
+            sed --file=- with.bash.template > with.bash <<SED
+                s:@POSTGRESQL_CONF@:$postgresql_conf:g
+                s:@SETUP_BASH@:$setup_bash:g
+SED
+
+            chmod +x with.bash
+            shellcheck with.bash
+
+            mkdir snowflake-output
+            mv with.bash snowflake-output
+BASH
+    },
+);
+
 1;

@@ -20,7 +20,7 @@
                 },
                 {
                     "name": "Run integration tests",
-                    "run": "/nix/var/nix/profiles/default/bin/nix run -ic env INTEGRATIONTEST=Y build/artifact/sitrep-hivemind.bash/hivemind.bash && (exit \"$(< state/prove.status)\")"
+                    "run": "/nix/var/nix/profiles/default/bin/nix run -ic build/artifact/sitrep-database-with.bash/with.bash env INTEGRATIONTEST=Y build/artifact/sitrep-hivemind.bash/hivemind.bash && (exit \"$(< state/integration-test.status)\")"
                 }
             ]
         }
