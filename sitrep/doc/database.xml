@@ -4,6 +4,7 @@
 <chapter xmlns="http://docbook.org/ns/docbook"
          xmlns:xi="http://www.w3.org/2001/XInclude"
          xml:id="database">
+    <indexterm><primary>with.bash</primary></indexterm>
     <title>Database</title>
     <section>
         <para>
@@ -11,6 +12,20 @@
             The database is accessed through
             the <ulink url="&pg;">PostgreSQL</ulink> DBMS.
         </para>
+        <para>
+            In development, you can run a command with the database in scope
+            using the <command>with.bash</command> program.
+            This program sets up the cluster and database,
+            starts the DBMS, runs the given command, and stops the DBMS.
+            This means you do not have to globally create a cluster
+            and run into problems related to global state.
+        </para>
+        <example xml:id="using-with-bash">
+            <title>Using <command>with.bash</command></title>
+            <screen><computeroutput>$ </computeroutput><userinput>build/artifact/sitrep-database-with.bash/with.bash env
+</userinput><computeroutput>PGHOST=state/sitrep/database/sockets
+PGPORT=5432</computeroutput></screen>
+        </example>
     </section>
     <xi:include href="database-roles.xml" />
     <xi:include href="database-rls.xml" />
