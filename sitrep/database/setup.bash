@@ -1,10 +1,17 @@
 #!/usr/bin/env bash
 set -efuo pipefail
 
-stateDir=$PWD/state/sitrep/database
+stateDir=state/sitrep/database
 
-export PGHOST="$stateDir/sockets"
+export PGHOST=127.0.0.1
 export PGPORT=5432
+
+export PGUSER=postgres
+export PGPASSWORD=$PGUSER
+export PGDATABASE=postgres
+while ! pg_isready; do
+    sleep 0.1
+done
 
 export PGUSER=postgres
 export PGPASSWORD=$PGUSER
@@ -18,10 +25,10 @@ psql --file=- <<SQL
     CREATE DATABASE sitrep OWNER sitrep_migrate;
 
     CREATE TABLESPACE sitrep_log_messages_in_need_of_extraction
-        LOCATION '$stateDir/tablespaces/sitrep_log_messages_in_need_of_extraction';
+        LOCATION '/$stateDir/tablespaces/sitrep_log_messages_in_need_of_extraction';
 
     CREATE TABLESPACE sitrep_log_messages_extracted_from
-        LOCATION '$stateDir/tablespaces/sitrep_log_messages_extracted_from';
+        LOCATION '/$stateDir/tablespaces/sitrep_log_messages_extracted_from';
 
     GRANT CREATE ON TABLESPACE sitrep_log_messages_in_need_of_extraction TO sitrep_migrate;
     GRANT CREATE ON TABLESPACE sitrep_log_messages_extracted_from TO sitrep_migrate;

@@ -20,4 +20,25 @@ BASH
     },
 );
 
+our $integrationTest_bash = Snowflake::Rule->new(
+    name => 'sitrep » integrationTest » integrationTest.bash',
+    dependencies => [$integrationTest],
+    sources => {
+        'integrationTest.bash' =>
+            ['on_disk', 'sitrep/integrationTest/integrationTest.bash'],
+        'snowflake-build' => bash_strict(<<'BASH'),
+            integrationTest=${1#../../../}
+            sed --file=- --in-place integrationTest.bash <<SED
+                s:@INTEGRATION_TEST@:$integrationTest:g
+SED
+
+            chmod +x integrationTest.bash
+            shellcheck integrationTest.bash
+
+            mkdir snowflake-output
+            mv integrationTest.bash snowflake-output
+BASH
+    },
+);
+
 1;

@@ -16,9 +16,10 @@ in
         pkgs.findutils
         pkgs.getLocaleArchive
         pkgs.gnused
-        pkgs.hivemind
         pkgs.ldc
         pkgs.perl
+        pkgs.procps
+        pkgs.runit
         pkgs.shellcheck
         pkgs.snowflake
         pkgs.socat

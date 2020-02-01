@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -efuo pipefail
+
+LOCALE_ARCHIVE=$(getLocaleArchive)
+export LOCALE_ARCHIVE
+
+cat /@POSTGRESQL_CONF@/postgresql.conf
+
+stateDir=/state/sitrep/database
+
+if ! [[ -e $stateDir/data ]]; then
+    initdb                          \
+        --pgdata="$stateDir/data"   \
+        --username=postgres         \
+        --pwfile=<(echo postgres)   \
+        --locale=en_US.UTF-8
+    find "$stateDir/data" -name '*.conf' -delete
+fi
+
+mkdir --parents "$stateDir/sockets"
+
+exec postgres --config-file=/@POSTGRESQL_CONF@/postgresql.conf

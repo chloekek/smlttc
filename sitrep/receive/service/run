@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -efuo pipefail
+
+export PGHOST=127.0.0.1
+export PGPORT=5432
+export PGUSER=sitrep_receive
+export PGPASSWORD=$PGUSER
+export PGDATABASE=sitrep
+
+exec socat -d TCP-LISTEN:1080,fork,reuseaddr \
+              EXEC:/@SITREP_RECEIVE@/sitrep-receive

@@ -67,13 +67,14 @@ BASH
 
 our $setup_bash = Snowflake::Rule->new(
     name => 'sitrep » database » setup.bash',
-    dependencies => [$schema],
+    dependencies => [
+        $schema,
+    ],
     sources => {
-        'setup.bash.template' =>
-            ['on_disk', 'sitrep/database/setup.bash'],
+        'setup.bash' => ['on_disk', 'sitrep/database/setup.bash'],
         'snowflake-build' => bash_strict(<<'BASH'),
             schema=${1#../../../}
-            sed --file=- setup.bash.template > setup.bash <<SED
+            sed --file=- --in-place setup.bash <<SED
                 s:@SCHEMA@:$schema:g
 SED
 
@@ -86,28 +87,24 @@ BASH
     },
 );
 
-our $with_bash = Snowflake::Rule->new(
-    name => 'sitrep » database » with.bash',
+our $service = Snowflake::Rule->new(
+    name => 'sitrep » database » service',
     dependencies => [
         $postgresql_conf,
-        $setup_bash,
     ],
     sources => {
-        'with.bash.template' =>
-            ['on_disk', 'sitrep/database/with.bash'],
+        'run' => ['on_disk', 'sitrep/database/service/run'],
         'snowflake-build' => bash_strict(<<'BASH'),
             postgresql_conf=${1#../../../}
-            setup_bash=${2#../../../}
-            sed --file=- with.bash.template > with.bash <<SED
+            sed --file=- --in-place run <<SED
                 s:@POSTGRESQL_CONF@:$postgresql_conf:g
-                s:@SETUP_BASH@:$setup_bash:g
 SED
 
-            chmod +x with.bash
-            shellcheck with.bash
+            chmod +x run
+            shellcheck run
 
             mkdir snowflake-output
-            mv with.bash snowflake-output
+            mv run snowflake-output
 BASH
     },
 );

@@ -40,4 +40,26 @@ BASH
     },
 );
 
+our $service = Snowflake::Rule->new(
+    name => 'sitrep » receive » service',
+    dependencies => [
+        $sitrep_receive,
+    ],
+    sources => {
+        'run' => ['on_disk', 'sitrep/receive/service/run'],
+        'snowflake-build' => bash_strict(<<'BASH'),
+            sitrep_receive=${1#../../../}
+            sed --file=- --in-place run <<SED
+                s:@SITREP_RECEIVE@:$sitrep_receive:g
+SED
+
+            chmod +x run
+            shellcheck run
+
+            mkdir snowflake-output
+            mv run snowflake-output
+BASH
+    },
+);
+
 1;

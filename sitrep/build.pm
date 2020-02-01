@@ -3,15 +3,15 @@ package sitrep::build;
 use v5.12;
 use strict;
 
+use sitrep::devenv::build;
 use sitrep::doc::build;
-use sitrep::hivemind::build;
-use sitrep::receive::build;
+use sitrep::integrationTest::build;
 
 our %artifacts = (
+    'sitrep-database-setup' => $sitrep::database::build::setup_bash,
+    'sitrep-devenv' => $sitrep::devenv::build::devenv_bash,
     'sitrep-doc' => $sitrep::doc::build::doc,
-    'sitrep-database-with.bash' => $sitrep::database::build::with_bash,
-    'sitrep-hivemind.bash' => $sitrep::hivemind::build::hivemind_bash,
-    'sitrep-sitrep-receive' => $sitrep::receive::build::sitrep_receive,
+    'sitrep-integration-test' => $sitrep::integrationTest::build::integrationTest_bash,
 );
 
 1;
