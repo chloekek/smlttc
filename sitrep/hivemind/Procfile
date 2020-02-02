@@ -1,2 +1,0 @@
-integration-test: @INTEGRATION_TEST_BASH@/integration-test.bash; echo $? > state/integration-test.status
-sitrep-receive: @SITREP_RECEIVE_BASH@/sitrep-receive.bash

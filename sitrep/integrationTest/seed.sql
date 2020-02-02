@@ -2,6 +2,13 @@
 
 START TRANSACTION;
 
+TRUNCATE TABLE
+    sitrep.authentication_tokens,
+    sitrep.identities,
+    sitrep.journal_acl,
+    sitrep.journals,
+    sitrep.log_messages;
+
 INSERT INTO sitrep.identities (id, name)
 VALUES ('0000000a-0000-0000-0000-000000000001', 'Identity 1'),
        ('0000000a-0000-0000-0000-000000000002', 'Identity 2');
